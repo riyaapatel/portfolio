@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Riya Patel | Software Engineer & AI Enthusiast</title>
+
+    <!-- Google Fonts: Poppins and JetBrains Mono -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #43e97b, #38f9d7);
+        --accent-color: #43e97b;
+        --background-color: #0d1117;
+        --glass-bg: rgba(255 255 255 / 0.05);
+        --border-color: rgba(255 255 255 / 0.15);
+        --text-primary: #c9d1d9;
+        --text-secondary: #8b949e;
+        --navbar-link-color: var(--accent-color);
+      }
+
+      /* Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--background-color);
+        color: var(--text-primary);
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      /* 3D Canvas container */
+      #threejs-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Navbar */
+      nav.navbar {
+        background: rgba(13, 17, 23, 0.85);
+        backdrop-filter: saturate(180%) blur(12px);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 600;
+      }
+      .navbar-brand {
+        font-weight: 800;
+        font-size: 1.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        cursor: pointer;
+        user-select: none;
+      }
+      .navbar-nav {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+      .navbar-nav li a {
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .navbar-nav li a:hover,
+      .navbar-nav li a.active {
+        color: var(--accent-color);
+      }
+
+      /* Section styling */
+      .section {
+        padding: 120px 2rem 80px;
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3 {
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+      }
+      h2.section-title {
+        font-size: 2.75rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: var(--text-secondary);
+        font-size: 1.125rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Gradient text helper */
+      .gradient-text {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Buttons */
+      .btn-gradient {
+        padding: 0.75rem 2.5rem;
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 30px;
+        font-weight: 700;
+        color: #0d1117;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-gradient:hover {
+        background: #38b174;
+        color: #fff;
+      }
+
+      .btn-outline {
+        padding: 0.75rem 2rem;
+        border-radius: 30px;
+        border: 2px solid var(--primary-gradient);
+        color: var(--primary-gradient);
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        display: inline-block;
+      }
+      .btn-outline:hover {
+        background: var(--primary-gradient);
+        color: #0d1117;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 100vh;
+        padding-top: 6rem;
+      }
+      .hero-badge {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .hero-title {
+        margin-bottom: 0.5rem;
+      }
+      .hero-subtitle {
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .hero-description {
+        max-width: 600px;
+        margin-bottom: 2.5rem;
+        font-size: 1.125rem;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 1.25rem;
+      }
+
+      /* Code Window */
+      .code-window {
+        background: #010409;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgb(0 0 0 / 0.5);
+        overflow: hidden;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1rem;
+        color: #c9d1d9;
+        max-width: 600px;
+        margin-top: 2rem;
+      }
+      .window-header {
+        background: #161b22;
+        display: flex;
+        padding: 0.5rem 1rem;
+      }
+      .window-dots {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .dot.red {
+        background: #f05252;
+      }
+      .dot.yellow {
+        background: #f5bf4a;
+      }
+      .dot.green {
+        background: #4ade80;
+      }
+
+      .code-content {
+        padding: 1rem 1.5rem;
+        line-height: 1.4;
+      }
+      .code-line {
+        white-space: nowrap;
+      }
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #58a6ff;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .comment {
+        color: #8b949e;
+        font-style: italic;
+      }
+
+      /* Timeline */
+      .timeline {
+        border-left: 3px solid var(--primary-gradient);
+        padding-left: 1.5rem;
+        margin-left: 1rem;
+      }
+      .timeline-item {
+        margin-bottom: 2.5rem;
+      }
+      .timeline-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+        font-size: 1.125rem;
+        color: var(--text-primary);
+      }
+      .timeline-header span {
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      .timeline-header h3 {
+        margin: 0;
+      }
+
+      /* Projects */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+      .project-card {
+        background: var(--glass-bg);
+        padding: 1.5rem;
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 8px 16px rgb(0 0 0 / 0.25);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: var(--text-primary);
+        transition: transform 0.3s ease;
+      }
+      .project-card:hover {
+        transform: translateY(-6px);
+      }
+      .project-card h3 {
+        margin-bottom: 0.75rem;
+      }
+      .project-card p {
+        flex-grow: 1;
+        margin-bottom: 1rem;
+        color: var(--text-secondary);
+      }
+
+      /* Skills Grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+      .stat-item {
+        text-align: center;
+        padding: 1.75rem 1rem;
+        background: var(--glass-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        transition: background-color 0.3s ease;
+      }
+      .stat-item:hover {
+        background-color: rgba(67, 233, 123, 0.1);
+      }
+      .stat-number {
+        font-size: 2.25rem;
+        font-weight: 900;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+      }
+      .stat-label {
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
+
+      /* Contact Form */
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        font-size: 1rem;
+        outline: none;
+      }
+
+      .contact-form input:focus,
+      .contact-form textarea:focus {
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 2px var(--accent-color);
+      }
+
+      .contact-form .btn {
+        background: var(--accent-color);
+        color: #fff;
+        padding: 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .contact-form .btn:hover {
+        background: darken(var(--accent-color), 10%);
+      }
+
+      .contact-info {
+        text-align: center;
+        font-size: 1rem;
+        color: var(--text-secondary);
+      }
+
+      .contact-info a {
+        color: var(--primary-gradient);
+        text-decoration: none;
+      }
+
+      .contact-info a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+        .hero-cta {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        nav.navbar {
+          padding: 1rem;
+        }
+        .navbar-nav {
+          gap: 1rem;
+        }
+        .timeline-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.25rem;
+        }
+        .section {
+          padding: 80px 1.5rem 60px;
+        }
+      }
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .experience-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .experience-item {
+        background: var(--glass-bg);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 1px solid var(--border-color);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      .job-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.25rem;
+      }
+
+      .company-location,
+      .job-duration {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+      }
+
+      .job-responsibilities {
+        list-style-type: disc;
+        margin-left: 1.5rem;
+        color: var(--text-primary);
+        font-size: 1.05rem;
+        line-height: 1.6;
+      }
+
+      .job-responsibilities li {
+        margin-bottom: 0.6rem;
+      }
+
+      #projects a {
+        color: var(--navbar-link-color);
+        text-decoration: none;
+      }
+
+      #projects a:visited,
+      #projects a:active {
+        color: var(--navbar-link-color);
+      }
+
+      /* Skills Section Styling */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        padding-top: 2rem;
+      }
+
+      .skill-category-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .skill-category-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .skill-category-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        color: var(--accent-color);
+      }
+
+      .skill-category-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .skill-category-card li {
+        font-size: 0.95rem;
+        padding: 0.3rem 0;
+        color: var(--text-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="threejs-container"></div>
+
+    <nav class="navbar">
+      <div class="navbar-brand">Riya Patel</div>
+      <ul class="navbar-nav">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <section id="home" class="hero-section section">
+      <div>
+        <div class="hero-badge">Available for new opportunities</div>
+        <h1 class="hero-title">
+          <span class="gradient-text">Software Engineer </span>
+        </h1>
+        <h2 class="hero-subtitle">
+          Building the future, one line of code at a time
+        </h2>
+        <p class="hero-description">
+          Passionate software engineer with 5+ years of experience in full-stack
+          development, currently pursuing M.S. in Computer Science while
+          creating innovative AI-powered solutions.
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn-gradient">Get In Touch</a>
+          <a href="#projects" class="btn-outline">View Projects</a>
+        </div>
+
+        <div class="code-window" style="margin-top: 3rem">
+          <div class="window-header">
+            <div class="window-dots">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+            </div>
+          </div>
+          <div class="code-content">
+            <div class="code-line">
+              <span class="keyword">class</span>
+              <span class="function">SoftwareEngineer</span>:
+            </div>
+            <div class="code-line">
+              &nbsp;&nbsp;<span class="keyword">def</span>
+              <span class="function">__init__</span>(self):
+            </div>
+            <div class="code-line">
+              &nbsp;&nbsp;&nbsp;&nbsp;self.name =
+              <span class="string">"Riya Patel"</span>
+            </div>
+            <div class="code-line">
+              &nbsp;&nbsp;&nbsp;&nbsp;self.skills = [<span class="string"
+                >"Python"</span
+              >, <span class="string">"Angular"</span>,
+              <span class="string">".NET Core"</span>]
+            </div>
+            <div class="code-line">
+              &nbsp;&nbsp;&nbsp;&nbsp;self.passion =
+              <span class="string">"Building amazing apps"</span>
+            </div>
+            <div class="code-line">
+              <span class="comment"># Always learning, always growing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2 class="section-title">About Me</h2>
+      <p>
+        Hi, I'm Riya Patel, a passionate software engineer from India, currently
+        pursuing my Master's in Computer Science. With over 5 years of
+        professional experience in software development, I love crafting elegant
+        and scalable solutions that impact real-world problems.
+      </p>
+    </section>
+
+    <section id="experience" class="section">
+      <div class="container">
+        <h2 class="section-title gradient-text">Experience</h2>
+        <div class="experience-list">
+          <article class="experience-item">
+            <h3 class="job-title">Software Engineer</h3>
+            <p class="company-location">Mindport Systems LLP, Mumbai, India</p>
+            <p class="job-duration">Jul 2021 – Jul 2024</p>
+            <ul class="job-responsibilities">
+              <li>
+                Designed and implemented web-based applications using
+                TypeScript, Angular, and Microsoft Visual Studio, integrated
+                with Microsoft SQL Server.
+              </li>
+              <li>
+                Led and mentored a team of 3 junior developers, increasing
+                project delivery speed by 25%.
+              </li>
+              <li>
+                Collaborated with clients to gather requirements and deliver
+                tailored solutions, resulting in a 95% satisfaction rate.
+              </li>
+              <li>
+                Implemented .NET framework with WCF and .NET Core using both
+                database-first and code-first approaches, enhancing system
+                flexibility.
+              </li>
+              <li>
+                Demonstrated strong OOP principles by developing modular C#
+                applications and reusable .NET packages, reducing code
+                redundancy by 35%.
+              </li>
+              <li>
+                Proactively learned and applied new technologies through
+                independent study, reducing project onboarding time by 40%.
+              </li>
+              <li>
+                Optimized stored procedures and database queries with analytical
+                problem-solving, improving data retrieval time by 30%.
+              </li>
+              <li>
+                Created comprehensive technical documentation and conducted
+                knowledge-sharing sessions to enable efficient team
+                collaboration.
+              </li>
+              <li>
+                Built and maintained robust code libraries with thorough unit
+                testing, achieving 98% code coverage and reducing bugs in
+                production by 40%.
+              </li>
+            </ul>
+          </article>
+
+          <article class="experience-item">
+            <h3 class="job-title">Associate Software Engineer</h3>
+            <p class="company-location">Mindport Systems LLP, Mumbai, India</p>
+            <p class="job-duration">Sep 2019 – Jul 2021</p>
+            <ul class="job-responsibilities">
+              <li>
+                Developed PHP and WordPress-based websites with UX enhancements
+                and custom plugins, ensuring responsiveness across platforms.
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title gradient-text">Projects</h2>
+        <div class="projects-grid">
+          <!-- Professional Projects (latest first) -->
+          <div class="project-card">
+            <h3>AVVS</h3>
+            <p><em>2022 – 2024 | Angular, .NET, MS SQL Server</em></p>
+            <p>
+              Contributed to architecture-level changes, optimized code
+              structure, and enhanced performance by implementing reusable
+              components and services.
+            </p>
+          </div>
+
+          <div class="project-card">
+            <h3>TOPS</h3>
+            <p><em>2022 – 2023 | Angular, .NET, MS SQL Server</em></p>
+            <p>
+              Built dynamic modules integrated with SQL Server backends, focused
+              on business intelligence and analytics.
+            </p>
+          </div>
+
+          <div class="project-card">
+            <h3>Maxxwill</h3>
+            <p><em>2021 – 2022 | Angular, .NET, MS SQL Server</em></p>
+            <p>
+              Finance application created with a team of 2 juniors in guidance
+              of the team leader. Developed various modules and interactive
+              dashboards to enhance user experience and performance.
+            </p>
+          </div>
+
+          <!-- Early Projects -->
+          <div class="project-card">
+            <h3>EnterTTech</h3>
+            <p><em>2019 – 2020 | HTML & CSS</em></p>
+            <p>
+              Built responsive static pages as part of hands-on training in
+              front-end web development.
+            </p>
+          </div>
+
+          <div class="project-card">
+            <h3>Gitaar School</h3>
+            <p><em>2019 – 2020 | WordPress</em></p>
+            <p>
+              Developed and customized WordPress site with plugin enhancements.
+            </p>
+          </div>
+
+          <div class="project-card">
+            <h3>Bespoke Nation</h3>
+            <p><em>2019 – 2020 | WordPress</em></p>
+            <p>
+              Implemented custom features using WordPress to meet client
+              branding needs.
+            </p>
+          </div>
+
+          <div class="project-card">
+            <h3>Equipoise</h3>
+            <p><em>2019 – 2020 | WordPress</em></p>
+            <p>
+              Enhanced UI/UX with tailored WordPress customizations and mobile
+              responsiveness.
+            </p>
+          </div>
+
+          <div class="project-card">
+            <h3>Aerial Arts Fairfax</h3>
+            <p><em>2019 – 2020 | Wix</em></p>
+            <p>
+              Customized site layout and design on Wix platform, ensuring
+              responsive and brand-consistent output.
+            </p>
+          </div>
+
+          <!-- Freelance Projects -->
+          <div class="project-card">
+            <h3>
+              <a href="https://www.jiyanshifashion.com/" target="_blank"
+                >Jiyanshi Fashion</a
+              >
+            </h3>
+            <p>Created a stylish website with e-commerce integration in Wix.</p>
+          </div>
+
+          <div class="project-card">
+            <h3>
+              <a href="https://www.venisons.com/" target="_blank">Venisons</a>
+            </h3>
+            <p>Created a stylish website with e-commerce integration in Wix.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <h2 class="section-title gradient-text">Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-category-card">
+            <h3>Languages</h3>
+            <ul>
+              <li>C#</li>
+              <li>TypeScript</li>
+              <li>JavaScript</li>
+              <li>Python</li>
+              <li>PHP</li>
+            </ul>
+          </div>
+          <div class="skill-category-card">
+            <h3>Frontend</h3>
+            <ul>
+              <li>Angular</li>
+              <li>React</li>
+              <li>HTML5</li>
+              <li>CSS3</li>
+            </ul>
+          </div>
+          <div class="skill-category-card">
+            <h3>Backend</h3>
+            <ul>
+              <li>.NET Core</li>
+              <li>.NET Framework</li>
+              <li>WCF</li>
+              <li>Flask</li>
+            </ul>
+          </div>
+          <div class="skill-category-card">
+            <h3>Databases</h3>
+            <ul>
+              <li>SQL Server</li>
+              <li>PostgreSQL</li>
+              <li>MySQL</li>
+            </ul>
+          </div>
+          <div class="skill-category-card">
+            <h3>Tools</h3>
+            <ul>
+              <li>Git</li>
+              <li>Bitbucket</li>
+              <li>VS Code</li>
+              <li>Visual Studio</li>
+            </ul>
+          </div>
+          <div class="skill-category-card">
+            <h3>Core Competencies</h3>
+            <ul>
+              <li>Agile</li>
+              <li>CI/CD</li>
+              <li>TDD</li>
+              <li>DSA</li>
+              <li>System Design</li>
+              <li>Web Scraping (Beautiful Soup, Selenium)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <h2 class="section-title">Stats</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">5+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Projects Completed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">2+</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="section-title gradient-text">Contact Me</h2>
+        <form id="contact-form" method="POST" class="contact-form">
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            required
+          ></textarea>
+          <!-- Honeypot field to trap bots -->
+          <input type="text" name="_gotcha" style="display: none" />
+          <button type="submit" class="btn">Send</button>
+        </form>
+      </div>
+      <p class="contact-info">
+        Or email me directly at
+        <a href="mailto:rs.patelriya@gmail.com">rs.patelriya@gmail.com</a>
+      </p>
+    </section>
+
+    <!-- Three.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r153/three.min.js"></script>
+    <script>
+      // Three.js Floating Geometry Background
+
+      const container = document.getElementById("threejs-container");
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      container.appendChild(renderer.domElement);
+
+      camera.position.z = 5;
+
+      // Create geometry and material
+      const geometry = new THREE.TetrahedronGeometry(1, 0);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x43e97b,
+        emissive: 0x0a6d52,
+        roughness: 0.1,
+        metalness: 0.6,
+        transparent: true,
+        opacity: 0.8,
+      });
+
+      const tetrahedron = new THREE.Mesh(geometry, material);
+      scene.add(tetrahedron);
+
+      // Add light
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+
+      const pointLight = new THREE.PointLight(0x43e97b, 1);
+      pointLight.position.set(5, 5, 5);
+      scene.add(pointLight);
+
+      // Animation
+      function animate() {
+        requestAnimationFrame(animate);
+
+        tetrahedron.rotation.x += 0.005;
+        tetrahedron.rotation.y += 0.007;
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Handle resize
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      (function () {
+        const form = document.getElementById("contact-form");
+        const formID = "xgvkjokg";
+        form.action = `https://formspree.io/f/${formID}`;
+      })();
+    </script>
+  </body>
+</html>
