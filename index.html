@@ -526,6 +526,22 @@
         padding: 0.3rem 0;
         color: var(--text-primary);
       }
+
+      .badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.academic-badge {
+  background: rgba(0, 122, 255, 0.15);
+  color: var(--accent-color);
+  border: 1px solid rgba(0, 122, 255, 0.4);
+}
+
     </style>
   </head>
   <body>
@@ -680,103 +696,139 @@
     </section>
 
     <section id="projects" class="section">
-      <div class="container">
-        <h2 class="section-title gradient-text">Projects</h2>
-        <div class="projects-grid">
-          <!-- Professional Projects (latest first) -->
-          <div class="project-card">
-            <h3>AVVS</h3>
-            <p><em>2022 – 2024 | Angular, .NET, MS SQL Server</em></p>
-            <p>
-              Contributed to architecture-level changes, optimized code
-              structure, and enhanced performance by implementing reusable
-              components and services.
-            </p>
-          </div>
+  <div class="container">
+    <h2 class="section-title gradient-text">Projects</h2>
 
-          <div class="project-card">
-            <h3>TOPS</h3>
-            <p><em>2022 – 2023 | Angular, .NET, MS SQL Server</em></p>
-            <p>
-              Built dynamic modules integrated with SQL Server backends, focused
-              on business intelligence and analytics.
-            </p>
-          </div>
-
-          <div class="project-card">
-            <h3>Maxxwill</h3>
-            <p><em>2021 – 2022 | Angular, .NET, MS SQL Server</em></p>
-            <p>
-              Finance application created with a team of 2 juniors in guidance
-              of the team leader. Developed various modules and interactive
-              dashboards to enhance user experience and performance.
-            </p>
-          </div>
-
-          <!-- Early Projects -->
-          <div class="project-card">
-            <h3>EnterTTech</h3>
-            <p><em>2019 – 2020 | HTML & CSS</em></p>
-            <p>
-              Built responsive static pages as part of hands-on training in
-              front-end web development.
-            </p>
-          </div>
-
-          <div class="project-card">
-            <h3>Gitaar School</h3>
-            <p><em>2019 – 2020 | WordPress</em></p>
-            <p>
-              Developed and customized WordPress site with plugin enhancements.
-            </p>
-          </div>
-
-          <div class="project-card">
-            <h3>Bespoke Nation</h3>
-            <p><em>2019 – 2020 | WordPress</em></p>
-            <p>
-              Implemented custom features using WordPress to meet client
-              branding needs.
-            </p>
-          </div>
-
-          <div class="project-card">
-            <h3>Equipoise</h3>
-            <p><em>2019 – 2020 | WordPress</em></p>
-            <p>
-              Enhanced UI/UX with tailored WordPress customizations and mobile
-              responsiveness.
-            </p>
-          </div>
-
-          <div class="project-card">
-            <h3>Aerial Arts Fairfax</h3>
-            <p><em>2019 – 2020 | Wix</em></p>
-            <p>
-              Customized site layout and design on Wix platform, ensuring
-              responsive and brand-consistent output.
-            </p>
-          </div>
-
-          <!-- Freelance Projects -->
-          <div class="project-card">
-            <h3>
-              <a href="https://www.jiyanshifashion.com/" target="_blank"
-                >Jiyanshi Fashion</a
-              >
-            </h3>
-            <p>Created a stylish website with e-commerce integration in Wix.</p>
-          </div>
-
-          <div class="project-card">
-            <h3>
-              <a href="https://www.venisons.com/" target="_blank">Venisons</a>
-            </h3>
-            <p>Created a stylish website with e-commerce integration in Wix.</p>
-          </div>
-        </div>
+    <div class="projects-grid">
+      <!-- Industry Projects -->
+      <div class="project-card">
+        <h3>AVVS</h3>
+        <p><em>Industry Project | 2022 – 2024</em></p>
+        <p>
+          Enterprise-scale application where I contributed to architecture-level
+          improvements, reusable Angular components, and optimized .NET services
+          backed by MS SQL Server.
+        </p>
       </div>
-    </section>
+
+      <div class="project-card">
+        <h3>TOPS</h3>
+        <p><em>Industry Project | 2022 – 2023</em></p>
+        <p>
+          Developed business intelligence modules with Angular and .NET,
+          integrating complex SQL queries and analytics-focused dashboards.
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>Maxxwill</h3>
+        <p><em>Industry Project | 2021 – 2022</em></p>
+        <p>
+          Financial application developed in a collaborative team environment.
+          Built core modules, dashboards, and mentored junior developers.
+        </p>
+      </div>
+
+      <!-- Academic Projects -->
+      <div class="project-card">
+        <h3>
+          Multi-Modal LLM Intelligent Agent
+          <span class="badge academic-badge">Academic</span>
+        </h3>
+        <p><em>Python, Flask, FAISS, LLMs</em></p>
+        <p>
+          Built an end-to-end intelligent agent capable of reasoning over PDFs,
+          documents, images, handwritten notes, OCR text, and web content.
+          Implemented FAISS-based semantic retrieval with LLM-powered contextual
+          responses and structured exports (CSV, Excel, DOCX).
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>
+          Machine Learning Training & Evaluation Platform
+          <span class="badge academic-badge">Academic</span>
+        </h3>
+        <p><em>Python, Reflex, scikit-learn</em></p>
+        <p>
+          Developed a full-stack ML platform enabling dataset uploads, training of
+          9+ machine learning models, automatic task detection, model comparison,
+          and rich visualizations including ROC curves and confusion matrices.
+        </p>
+      </div>
+
+      <!-- Early Projects -->
+      <div class="project-card">
+        <h3>EnterTTech</h3>
+        <p><em>2019 – 2020 | HTML & CSS</em></p>
+        <p>
+          Built responsive static pages as part of hands-on training in
+          front-end web development.
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>Gitaar School</h3>
+        <p><em>2019 – 2020 | WordPress</em></p>
+        <p>
+          Developed and customized WordPress site with plugin enhancements.
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>Bespoke Nation</h3>
+        <p><em>2019 – 2020 | WordPress</em></p>
+        <p>
+          Implemented custom features using WordPress to meet client branding
+          needs.
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>Equipoise</h3>
+        <p><em>2019 – 2020 | WordPress</em></p>
+        <p>
+          Enhanced UI/UX with tailored WordPress customizations and mobile
+          responsiveness.
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>Aerial Arts Fairfax</h3>
+        <p><em>2019 – 2020 | Wix</em></p>
+        <p>
+          Customized site layout and design on Wix platform, ensuring responsive
+          and brand-consistent output.
+        </p>
+      </div>
+
+      <!-- Freelance Projects -->
+      <div class="project-card">
+        <h3>
+          <a href="https://www.jiyanshifashion.com/" target="_blank">
+            Jiyanshi Fashion
+          </a>
+        </h3>
+        <p><em>Freelance Project | Wix</em></p>
+        <p>
+          Designed and deployed a fashion e-commerce website with a strong focus
+          on branding, responsiveness, and client requirements.
+        </p>
+      </div>
+
+      <div class="project-card">
+        <h3>
+          <a href="https://www.venisons.com/" target="_blank">Venisons</a>
+        </h3>
+        <p><em>Freelance Project | Wix</em></p>
+        <p>
+          Delivered a production-ready business website emphasizing performance,
+          usability, and visual consistency.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="skills" class="section">
       <div class="container">
