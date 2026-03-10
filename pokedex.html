@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riya Patel — Pokédex Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Custom cursors (Pokéball default, Pikachu pointer) -->
+  <svg id="cursor-svgs" style="position:absolute;width:0;height:0;overflow:hidden;">
+    <!-- These are referenced by CSS url() — see style.css for cursor images -->
+  </svg>
+
+  <!-- ============ LANDING ============ -->
+  <div id="landing" class="landing">
+    <div class="landing-content">
+      <h1 class="landing-title">Hey, I'm <span class="highlight">Riya</span>!</h1>
+      <p class="landing-subtitle">Click on me to open my Pokédex 🎮</p>
+      <div class="landing-figure" id="landing-figure">
+        <img
+          src="bitmoji.png"
+          alt="Riya holding Pikachu"
+          class="character-landing"
+          id="character-landing"
+        />
+      </div>
+      <div class="sparkles">✨ Click to begin! ✨</div>
+    </div>
+  </div>
+
+  <!-- ============ POKÉDEX ============ -->
+  <div id="pokedex" class="pokedex hidden">
+
+    <!-- Mini character on left edge -->
+    <div class="pokedex-mini-character">
+      <img src="bitmoji.png" alt="Riya mini" class="mini-character-img" />
+      <span class="mini-name">Riya</span>
+      <!-- Visitor counter -->
+      <div class="visitor-counter">
+        <div class="visitor-icon">👁️</div>
+        <div class="visitor-count" id="visitor-count">...</div>
+        <div class="visitor-label">Trainers</div>
+      </div>
+    </div>
+
+    <!-- Pokédex Body -->
+    <div class="pokedex-body">
+
+      <!-- Top indicator lights -->
+      <div class="pokedex-top-lights">
+        <div class="light-big">
+          <div class="light-big-inner"></div>
+        </div>
+        <div class="light-small red"></div>
+        <div class="light-small yellow"></div>
+        <div class="light-small green"></div>
+        <!-- Sound toggle -->
+        <button class="sound-toggle" id="sound-toggle" onclick="toggleSound()" title="Toggle sound">
+          🔊
+        </button>
+      </div>
+
+      <!-- Screen with CRT effect -->
+      <div class="pokedex-screen">
+        <div class="crt-overlay"></div>
+        <div id="screen-content" class="screen-content">
+          <div class="screen-welcome">
+            <h2>Welcome, Trainer!</h2>
+            <p>Select a button below to explore Riya's stats.</p>
+            <div class="pokeball-icon">
+              <svg viewBox="0 0 100 100" width="60" height="60">
+                <circle cx="50" cy="50" r="48" fill="#fff" stroke="#2c3e50" stroke-width="3"/>
+                <path d="M2 50 L98 50" stroke="#2c3e50" stroke-width="3"/>
+                <path d="M2 50 A48 48 0 0 0 98 50" fill="#e74c3c"/>
+                <circle cx="50" cy="50" r="12" fill="#fff" stroke="#2c3e50" stroke-width="3"/>
+                <circle cx="50" cy="50" r="6" fill="#2c3e50"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control Buttons -->
+      <div class="pokedex-controls">
+        <div class="dpad-area">
+          <button class="btn-pokedex btn-about active-btn" onclick="showContent('about')">
+            <span class="btn-icon">👤</span> About
+          </button>
+          <button class="btn-pokedex btn-skills" onclick="showContent('skills')">
+            <span class="btn-icon">⚡</span> Skills
+          </button>
+          <button class="btn-pokedex btn-experience" onclick="showContent('experience')">
+            <span class="btn-icon">🏆</span> XP
+          </button>
+          <button class="btn-pokedex btn-projects" onclick="showContent('projects')">
+            <span class="btn-icon">📁</span> Projects
+          </button>
+          <button class="btn-pokedex btn-education" onclick="showContent('education')">
+            <span class="btn-icon">🎓</span> Edu
+          </button>
+          <button class="btn-pokedex btn-contact" onclick="showContent('contact')">
+            <span class="btn-icon">📬</span> Catch Me
+          </button>
+        </div>
+      </div>
+
+      <!-- Download Trainer Card + Speaker -->
+      <div class="pokedex-bottom">
+        <button class="trainer-card-btn" onclick="downloadTrainerCard()">
+          ⬇ Download Trainer Card
+        </button>
+        <div class="pokedex-speaker">
+          <div class="speaker-line"></div>
+          <div class="speaker-line"></div>
+          <div class="speaker-line"></div>
+          <div class="speaker-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Particle canvas (overlays everything) -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Back Button -->
+  <button id="back-btn" class="back-btn hidden" onclick="closePokedex()">✕ Close Pokédex</button>
+
+  <!-- Pokéball catch animation overlay -->
+  <div id="catch-overlay" class="catch-overlay hidden">
+    <div class="catch-pokeball" id="catch-pokeball">
+      <svg viewBox="0 0 100 100" width="80" height="80">
+        <circle cx="50" cy="50" r="48" fill="#fff" stroke="#2c3e50" stroke-width="3"/>
+        <path d="M2 50 L98 50" stroke="#2c3e50" stroke-width="3"/>
+        <path d="M2 50 A48 48 0 0 0 98 50" fill="#e74c3c"/>
+        <circle cx="50" cy="50" r="12" fill="#fff" stroke="#2c3e50" stroke-width="3"/>
+        <circle cx="50" cy="50" r="6" fill="#2c3e50"/>
+      </svg>
+    </div>
+    <div class="catch-stars hidden" id="catch-stars">✨ Gotcha! ✨</div>
+    <div class="catch-contact hidden" id="catch-contact"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
