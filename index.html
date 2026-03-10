@@ -78,6 +78,212 @@
     .code-body{padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.6;color:var(--text-s)}
     .code-body .kw{color:var(--rose)}.code-body .fn{color:var(--gold-l)}.code-body .str{color:var(--em)}.code-body .cm{color:var(--text-m);font-style:italic}
 
+        /* ── HERO SPLIT LAYOUT ── */
+    .hero-split {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ── CHARACTER AREA ── */
+    .hero-character {
+      position: relative;
+      flex-shrink: 0;
+      width: 280px;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* Ambient glow behind character */
+    .char-glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(212,168,83,0.08) 0%,
+        rgba(201,122,126,0.04) 40%,
+        transparent 70%);
+      filter: blur(40px);
+      animation: charGlowPulse 4s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes charGlowPulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.15); opacity: 0.9; }
+    }
+
+    /* Rotating ring around character */
+    .char-ring {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 1px dashed rgba(212,168,83,0.12);
+      animation: charRingSpin 20s linear infinite;
+      z-index: 0;
+    }
+
+    .char-ring::before,
+    .char-ring::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 12px var(--gold-g);
+    }
+
+    .char-ring::before { top: -4px; left: 50%; transform: translateX(-50%); }
+    .char-ring::after { bottom: -4px; left: 50%; transform: translateX(-50%); }
+
+    @keyframes charRingSpin { to { transform: rotate(360deg); } }
+
+    /* Character image */
+    .char-img {
+      position: relative;
+      z-index: 1;
+      width: 220px;
+      height: auto;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4))
+              drop-shadow(0 0 60px rgba(212,168,83,0.08));
+      animation: charFloat 5s ease-in-out infinite;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                  filter 0.4s;
+    }
+
+    @keyframes charFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .hero-character:hover .char-img {
+      transform: translateY(-8px) scale(1.05);
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.5))
+              drop-shadow(0 0 80px rgba(212,168,83,0.15));
+    }
+
+    .hero-character:hover .char-glow {
+      animation: none;
+      transform: scale(1.3);
+      opacity: 1;
+    }
+
+    .hero-character:hover .char-ring {
+      border-color: rgba(212,168,83,0.25);
+    }
+
+    /* Floating label below character */
+    .char-float-tag {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(185,28,28,0.15);
+      border: 1px solid rgba(185,28,28,0.2);
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--gold-l);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      animation: tagFloat 3s ease-in-out infinite;
+      opacity: 0.8;
+      transition: opacity 0.3s, background 0.3s;
+    }
+
+    .hero-character:hover .char-float-tag {
+      opacity: 1;
+      background: rgba(185,28,28,0.25);
+    }
+
+    @keyframes tagFloat {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-4px); }
+    }
+
+    .char-tag-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #f87171;
+      box-shadow: 0 0 8px rgba(248,113,113,0.5);
+      animation: dp 2s infinite;
+    }
+
+    /* ── POKÉDEX BUTTON STYLE ── */
+    .poke-btn {
+      background: linear-gradient(135deg, #b91c1c, #7f1d1d) !important;
+      color: var(--gold-l) !important;
+      border-color: rgba(185,28,28,0.3) !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poke-btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .poke-btn:hover::after { left: 100%; }
+
+    .poke-btn:hover {
+      box-shadow: 0 0 28px rgba(185,28,28,0.2),
+                  0 0 60px rgba(185,28,28,0.06),
+                  inset 0 0 20px rgba(185,28,28,0.08) !important;
+      border-color: rgba(248,113,113,0.3) !important;
+      color: #facc15 !important;
+    }
+
+    /* ── RESPONSIVE: stack on mobile ── */
+    @media (max-width: 768px) {
+      .hero-split {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-text {
+        order: 2;
+      }
+
+      .hero-character {
+        order: 1;
+        width: 200px;
+        height: 280px;
+        margin-bottom: 1rem;
+      }
+
+      .char-img { width: 160px; }
+      .char-glow { width: 220px; height: 220px; }
+      .char-ring { width: 180px; height: 180px; }
+
+      .hero-ctas { justify-content: center; }
+      .hero-badge { margin-left: auto; margin-right: auto; }
+      .code-win { margin-left: auto; margin-right: auto; }
+    }
+
     /* ── SECTION SYSTEM (Framer-style scroll sections) ── */
     .sec{padding:5rem 0}
     .sec-head{text-align:center;margin-bottom:3rem}
@@ -200,35 +406,45 @@
   <!-- ═══════════ HERO ═══════════ -->
   <section class="hero">
 
-    <div class="hero-badge a1"><div class="dot"></div><span>Open to opportunities</span></div>
+    <div class="hero-split">
 
-    <h1 class="hero-mega a1">Build.<br/><span class="gold-word">Ship.</span><br/>Scale.</h1>
+      <!-- LEFT: text content -->
+      <div class="hero-text">
 
-    <p class="hero-sub a2">
-      <strong>Software engineer with 5+ years</strong> shipping enterprise .NET & Angular systems for Fortune 500 clients.
-      Now building <strong>AI-first systems</strong> — LLM agents, ML platforms, semantic retrieval pipelines.
-      Published a <strong>NuGet package</strong> adopted across 10+ production codebases.
-    </p>
+        <div class="hero-badge a1"><div class="dot"></div><span>Open to opportunities</span></div>
 
-    <p class="hero-type a2" id="tt"><span class="tc"></span></p>
+        <h1 class="hero-mega a1">Build.<br/><span class="gold-word">Ship.</span><br/>Scale.</h1>
 
-    <div class="hero-ctas a3">
-      <a href="mailto:rs.patelriya@gmail.com" class="btn gd mag">✉ Hire Me</a>
-      <a href="https://linkedin.com/in/riyapatel-dev" target="_blank" class="btn mag">in LinkedIn</a>
-      <a href="https://github.com/riyaapatel" target="_blank" class="btn mag">⌘ GitHub</a>
-      <a href="Riya_Patel_Resume.pdf" class="btn mag" download>↓ Resume</a>
-    </div>
+        <p class="hero-sub a2">
+          <strong>Software engineer with 5+ years</strong> shipping enterprise .NET & Angular systems for Fortune 500 clients.
+          Now building <strong>AI-first systems</strong> — LLM agents, ML platforms, semantic retrieval pipelines.
+        </p>
 
-    <div class="code-win a3">
-      <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div>
-      <div class="code-body">
-        <span class="kw">class</span> <span class="fn">SoftwareEngineer</span>:<br/>
-        &nbsp;&nbsp;<span class="kw">def</span> <span class="fn">__init__</span>(self):<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;self.name = <span class="str">"Riya Patel"</span><br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;self.stack = [<span class="str">"Python"</span>, <span class="str">"Angular"</span>, <span class="str">".NET"</span>, <span class="str">"LLMs"</span>]<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;self.superpower = <span class="str">"debugs what AI cannot"</span><br/>
-        <span class="cm"># always learning, always shipping</span>
+        <p class="hero-type a2" id="tt"><span class="tc"></span></p>
+
+        <div class="hero-ctas a3">
+          <a href="mailto:rs.patelriya@gmail.com" class="btn gd mag">✉ Hire Me</a>
+          <a href="https://linkedin.com/in/riyapatel-dev" target="_blank" class="btn mag">in LinkedIn</a>
+          <a href="https://github.com/riyaapatel" target="_blank" class="btn mag">⌘ GitHub</a>
+          <a href="Riya_Patel_Resume.pdf" class="btn mag" download>↓ Resume</a>
+          <a href="pokedex.html" class="btn poke-btn mag">🎮 My Pokédex</a>
+
+        </div>
+
+        <div class="code-win a3">
+          <div class="code-bar"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div>
+          <div class="code-body">
+            <span class="kw">class</span> <span class="fn">SoftwareEngineer</span>:<br/>
+            &nbsp;&nbsp;<span class="kw">def</span> <span class="fn">__init__</span>(self):<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;self.name = <span class="str">"Riya Patel"</span><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;self.stack = [<span class="str">"Python"</span>, <span class="str">"Angular"</span>, <span class="str">".NET"</span>, <span class="str">"LLMs"</span>]<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;self.superpower = <span class="str">"debugs what AI cannot"</span><br/>
+            <span class="cm"># always learning, always shipping</span>
+          </div>
+        </div>
+
       </div>
+
     </div>
 
   </section>
@@ -353,7 +569,7 @@
       <a href="mailto:rs.patelriya@gmail.com" class="fl">rs.patelriya@gmail.com</a>
       <a href="https://www.nuget.org/packages/Settings-Maintenance" target="_blank" class="fl">NuGet Package ↗</a>
     </div>
-    <a href="pokedex.html" class="pk mag">🎮 Explore My Pokédex</a>
+    <span class="fl" style="color:var(--text-m);font-size:.68rem;">Built with ☕ and curiosity</span>
   </div>
 
 </div></div>
@@ -394,6 +610,14 @@
     b.addEventListener("mousemove",function(e){var r=b.getBoundingClientRect();b.style.transform="translate("+((e.clientX-r.left-r.width/2)*.25)+"px,"+((e.clientY-r.top-r.height/2)*.25)+"px)";});
     b.addEventListener("mouseleave",function(){b.style.transform="translate(0,0)";});
   })(mags[m]);}
+
+  // Character click → Pokédex
+  var charImg = document.getElementById("charImg");
+  if (charImg) {
+    charImg.parentElement.addEventListener("click", function () {
+      window.location.href = "pokedex.html";
+    });
+  }
 
   // Typing
   var titles=["Software Engineer","AI Engineer","Full-Stack Developer",".NET & Angular Expert","LLM Agent Builder","ML Platform Architect"];
