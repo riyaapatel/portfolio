@@ -10,9 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var landingFigure = document.getElementById("landing-figure");
   var characterImg = document.getElementById("character-landing");
 
-  // =============================================================
-  // CLICK TO OPEN POKÉDEX
-  // =============================================================
   if (landingFigure) {
     landingFigure.addEventListener("click", function () {
       openPokedex();
@@ -97,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // =============================================================
-  // CATCH ME ANIMATION — all functions on window
+  // CATCH ME ANIMATION
   // =============================================================
   window.startCatchAnimation = function () {
     playCatchSound();
@@ -124,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
         '<p style="margin-top:8px;">📍 Bowling Green, KY</p>' +
         '<button id="catch-close-inner" class="catch-close-btn">Close</button>';
 
-      // Attach close handler directly after innerHTML is set
       var closeBtn = document.getElementById("catch-close-inner");
       if (closeBtn) {
         closeBtn.addEventListener("click", function (e) {
@@ -135,18 +131,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 1800);
   };
 
-  // Also expose a global close function as a fallback
   window.closeCatchOverlay = function () {
     document.getElementById("catch-overlay").classList.add("hidden");
   };
 
-  // Click on dark background to close
   var catchOverlay = document.getElementById("catch-overlay");
   if (catchOverlay) {
     catchOverlay.addEventListener("click", function (e) {
-      if (e.target === catchOverlay) {
-        catchOverlay.classList.add("hidden");
-      }
+      if (e.target === catchOverlay) catchOverlay.classList.add("hidden");
     });
   }
 
@@ -160,27 +152,19 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.height = 480;
     var ctx = canvas.getContext("2d");
 
-    // Red outer
     var grad = ctx.createLinearGradient(0, 0, 700, 480);
-    grad.addColorStop(0, "#dc2626");
-    grad.addColorStop(1, "#991b1b");
+    grad.addColorStop(0, "#dc2626"); grad.addColorStop(1, "#991b1b");
     ctx.fillStyle = grad;
     rr(ctx, 0, 0, 700, 480, 24, true);
 
-    // Dark inner
-    ctx.fillStyle = "#1a1a2e";
-    rr(ctx, 14, 14, 672, 452, 18, true);
-
-    // Green screen
-    ctx.fillStyle = "#9bbc0f";
-    rr(ctx, 28, 28, 644, 424, 12, true);
+    ctx.fillStyle = "#1a1a2e"; rr(ctx, 14, 14, 672, 452, 18, true);
+    ctx.fillStyle = "#9bbc0f"; rr(ctx, 28, 28, 644, 424, 12, true);
 
     ctx.fillStyle = "#0f380f";
     ctx.font = "bold 26px Poppins, sans-serif";
     ctx.fillText("★ TRAINER CARD ★", 210, 68);
 
-    ctx.strokeStyle = "#0f380f";
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#0f380f"; ctx.lineWidth = 2;
     ctx.setLineDash([6, 4]);
     ctx.beginPath(); ctx.moveTo(50, 82); ctx.lineTo(650, 82); ctx.stroke();
     ctx.setLineDash([]);
@@ -189,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.fillText("RIYA PATEL", 50, 115);
 
     ctx.font = "15px Poppins, sans-serif";
-    ctx.fillStyle = "#0f380f";
     ctx.fillText("Type: Software Engineer  ·  AI Engineer", 50, 142);
     ctx.fillText("Region: Bowling Green, KY  |  Level: 5+ Years XP", 50, 165);
 
@@ -202,13 +185,13 @@ document.addEventListener("DOMContentLoaded", function () {
     ctx.fillText("SQL Server  ·  PostgreSQL  ·  Docker  ·  GitHub Actions  ·  CI/CD", 50, 262);
 
     ctx.font = "bold 16px Poppins, sans-serif";
-    ctx.fillText("—— ACHIEVEMENTS ——", 50, 296);
+    ctx.fillText("—— KEY WINS ——", 50, 296);
 
     ctx.font = "13px Poppins, sans-serif";
-    ctx.fillText("▸ 30% performance boost via Angular + .NET optimization", 50, 318);
-    ctx.fillText("▸ 90% reduction in stored procedure formatting time", 50, 338);
-    ctx.fillText("▸ Published NuGet package adopted across 10+ production projects", 50, 358);
-    ctx.fillText("▸ 10+ enterprise projects  |  2+ Certifications  |  3 mentees", 50, 378);
+    ctx.fillText("▸ 30% faster page loads — Angular + .NET Core optimization", 50, 318);
+    ctx.fillText("▸ 90% time saved on stored procedures — custom TS automation", 50, 338);
+    ctx.fillText("▸ NuGet package shipped — adopted across 10+ production projects", 50, 358);
+    ctx.fillText("▸ Sub-500ms queries — sole developer on Fortune 500 platform", 50, 378);
 
     ctx.font = "bold 16px Poppins, sans-serif";
     ctx.fillText("—— CONTACT ——", 50, 412);
@@ -349,13 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // =============================================================
-// PORTFOLIO DATA (global scope)
-// Color key for green screen (#9bbc0f background):
-//   Headers / strong text: #0f380f (darkest green-black)
-//   Body text:             #1a3a1a (dark green)
-//   Secondary / dates:     #2d5a2d (medium green)
-//   Muted / italic:        #3d6e3d (softer green)
-//   Links inside screen:   #0f380f underlined
+// PORTFOLIO DATA
 // =============================================================
 var portfolioData = {
 
@@ -370,11 +347,11 @@ var portfolioData = {
         '<p style="color:#0f380f;"><strong>Level:</strong> 5+ Years Production XP ★★★★☆</p>' +
         '<p style="color:#0f380f;"><strong>Status:</strong> <span style="background:#0f380f;color:#9bbc0f;padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:700;">AVAILABLE FOR OPPORTUNITIES</span></p>' +
         '<br/>' +
-        '<p style="color:#1a3a1a;">Software engineer with <strong style="color:#0f380f;">5+ years of full-stack production experience</strong> building enterprise .NET/Angular systems for international clients and AI systems end-to-end — from an <strong style="color:#0f380f;">LLM agent platform</strong> with OCR ingestion and semantic retrieval to a full <strong style="color:#0f380f;">ML training platform</strong> supporting 9+ algorithms.</p>' +
+        '<p style="color:#1a3a1a;">Software engineer with <strong style="color:#0f380f;">5+ years</strong> building enterprise .NET/Angular systems for international clients and AI systems end-to-end — from an <strong style="color:#0f380f;">LLM agent platform</strong> with OCR + semantic retrieval to a full <strong style="color:#0f380f;">ML training platform</strong> supporting 9+ algorithms.</p>' +
         '<br/>' +
-        '<p style="color:#1a3a1a;">Published an open-source <strong style="color:#0f380f;">NuGet package</strong> used across 10+ production projects. Cut stored procedure overhead by <strong style="color:#0f380f;">90%</strong> through custom automation.</p>' +
+        '<p style="color:#1a3a1a;">Shipped an open-source <strong style="color:#0f380f;">NuGet package</strong> used across 10+ production projects. Cut stored procedure overhead by <strong style="color:#0f380f;">90%</strong>. Debugs what AI tools cannot.</p>' +
         '<br/>' +
-        '<p style="color:#1a3a1a;"><strong style="color:#0f380f;">Currently:</strong> Pursuing M.S. in Computer Science at Western Kentucky University while serving as a Graduate Teaching Assistant.</p>' +
+        '<p style="color:#1a3a1a;"><strong style="color:#0f380f;">Currently:</strong> M.S. in Computer Science at Western Kentucky University · Graduate Teaching Assistant.</p>' +
       '</div>'
   },
 
@@ -415,7 +392,7 @@ var portfolioData = {
         '</div>' +
 
         '<div class="skill-category">' +
-          '<div class="skill-category-title">🧠 Core Competencies</div>' +
+          '<div class="skill-category-title">🧠 Core</div>' +
           '<div class="skill-tags"><span class="skill-tag">Agile/Scrum</span><span class="skill-tag">TDD</span><span class="skill-tag">DSA</span><span class="skill-tag">System Design</span><span class="skill-tag">Tech Docs</span><span class="skill-tag">ETL</span><span class="skill-tag">Selenium</span><span class="skill-tag">Beautiful Soup</span></div>' +
         '</div>' +
 
@@ -432,28 +409,62 @@ var portfolioData = {
       '<div class="screen-section">' +
         '<h3>▾ BATTLE LOG</h3>' +
 
+        // GTA
         '<div class="exp-item">' +
           '<div class="exp-title">Graduate Teaching Assistant</div>' +
           '<div class="exp-company">Western Kentucky University</div>' +
           '<div class="exp-date">Aug 2025 – Present</div>' +
-          '<p class="exp-details" style="color:#1a3a1a;">Instructed Python lab sessions and tutoring hours for 20+ undergraduates, covering debugging, logic development, and OOP fundamentals.</p>' +
+          '<p class="exp-details" style="color:#1a3a1a;">Teaching Python labs + tutoring 20+ undergrads — debugging, OOP, logic development.</p>' +
         '</div>' +
 
+        // Mindport
         '<div class="exp-item">' +
           '<div class="exp-title">Software Engineer — Full-Stack</div>' +
-          '<div class="exp-company">Mindport Systems LLP (Mumbai, India)</div>' +
+          '<div class="exp-company">Mindport Systems LLP, Mumbai</div>' +
           '<div class="exp-date">Sep 2019 – Jul 2024</div>' +
-          '<p style="font-size:0.72rem;font-style:italic;margin-bottom:6px;color:#2d5a2d;">Enterprise applications for Netherlands-based clients including a global Fortune 500 logistics company.</p>' +
+          '<p style="font-size:0.7rem;font-style:italic;margin-bottom:8px;color:#2d5a2d;">Enterprise apps for Netherlands-based clients incl. Fortune 500 logistics.</p>' +
           '<ul>' +
-            '<li style="color:#1a3a1a;">Engineered a <strong style="color:#0f380f;">full-stack logistics platform</strong> for a Fortune 500 client as sole developer — achieving <strong style="color:#0f380f;">sub-500ms query response</strong> via strategic indexing and query optimization.</li>' +
-            '<li style="color:#1a3a1a;">Boosted web application performance by <strong style="color:#0f380f;">30%</strong> (page load) by optimizing Angular change detection, frontend rendering, and .NET Core API response paths.</li>' +
-            '<li style="color:#1a3a1a;">Accelerated feature delivery by <strong style="color:#0f380f;">40%</strong> (sprint completion) by designing RESTful APIs using .NET Core, C#, and SQL.</li>' +
-            '<li style="color:#1a3a1a;">Reduced stored procedure formatting time by <strong style="color:#0f380f;">90%</strong> (30 min to 2-5 min) by building a TypeScript automation tool aligned with client-specific standards.</li>' +
-            '<li style="color:#1a3a1a;">Published <strong style="color:#0f380f;">Settings-Maintenance</strong>, an open-source .NET NuGet package auto-generating maintenance modules, adopted across <strong style="color:#0f380f;">10+ production projects</strong>.</li>' +
-            '<li style="color:#1a3a1a;">Resolved critical failures across <strong style="color:#0f380f;">10+ live environments</strong> via debugging logs, analyzing SQL execution plans, and refactoring APIs.</li>' +
-            '<li style="color:#1a3a1a;">Created comprehensive deployment and environment setup documentation, enabling faster independent deployments.</li>' +
-            '<li style="color:#1a3a1a;">Strengthened cross-team collaboration via code reviews, sprint planning, and architectural discussions with PMs and senior engineers.</li>' +
-            '<li style="color:#1a3a1a;">Mentored <strong style="color:#0f380f;">3 junior engineers</strong> through pair programming and technical walkthroughs, reducing onboarding time by ~40%.</li>' +
+
+            // 1. Sole developer — Fortune 500
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">Sub-500ms queries</strong> — sole developer on a Fortune 500 logistics platform; owned UI, DB, and API end-to-end.' +
+            '</li>' +
+
+            // 2. Page load
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">30% faster page loads</strong> — tuned Angular change detection and .NET Core response paths.' +
+            '</li>' +
+
+            // 3. Sprint delivery
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">40% faster sprint delivery</strong> — designed scalable REST APIs (.NET Core, C#, SQL) adopted as team standards.' +
+            '</li>' +
+
+            // 4. SP automation
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">90% time cut</strong> on stored procedures — built a TypeScript automation tool used across 10-12 projects.' +
+            '</li>' +
+
+            // 5. NuGet
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">Shipped NuGet package</strong> — auto-generates maintenance modules; adopted across 10+ production codebases.' +
+            '</li>' +
+
+            // 6. Production fires
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">10+ live env fixes</strong> — debugged via logs, SQL execution plans, and API refactors.' +
+            '</li>' +
+
+            // 7. Docs + collab
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">Deployment docs</strong> — authored setup guides; participated in code reviews, sprint planning, and architecture discussions.' +
+            '</li>' +
+
+            // 8. Mentoring
+            '<li style="color:#1a3a1a;">' +
+              '<strong style="color:#0f380f;">Mentored 3 engineers</strong> — pair programming + tech walkthroughs; cut onboarding time by ~40%.' +
+            '</li>' +
+
           '</ul>' +
         '</div>' +
       '</div>'
@@ -465,35 +476,35 @@ var portfolioData = {
       '<div class="screen-section">' +
         '<h3>▾ POKÉDEX ENTRIES</h3>' +
 
-        '<div class="project-card"><h4 style="color:#0f380f;">🤖 Multi-Modal LLM Intelligent Agent <span style="font-size:0.55rem;background:#0f380f;color:#9bbc0f;padding:2px 6px;border-radius:6px;vertical-align:middle;">Academic</span></h4>' +
-        '<p style="color:#1a3a1a;">End-to-end intelligent agent reasoning over PDFs, images, handwritten notes, OCR text, and web content. FAISS-based semantic retrieval with LLM-powered contextual responses and structured exports (CSV, Excel, DOCX).</p>' +
+        '<div class="project-card"><h4 style="color:#0f380f;">🤖 Multi-Modal LLM Agent <span style="font-size:0.55rem;background:#0f380f;color:#9bbc0f;padding:2px 6px;border-radius:6px;vertical-align:middle;">Academic</span></h4>' +
+        '<p style="color:#1a3a1a;">Reasoning over PDFs, images, handwritten notes, OCR text, and web content. FAISS semantic retrieval + Gemini LLM + structured exports (CSV, Excel, DOCX).</p>' +
         '<div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Flask</span><span class="project-tag">Gemini/ADK</span><span class="project-tag">FAISS</span><span class="project-tag">SentenceTransformers</span><span class="project-tag">OCR</span></div></div>' +
 
-        '<div class="project-card"><h4 style="color:#0f380f;">📊 ML Training &amp; Evaluation Platform <span style="font-size:0.55rem;background:#0f380f;color:#9bbc0f;padding:2px 6px;border-radius:6px;vertical-align:middle;">Academic</span></h4>' +
-        '<p style="color:#1a3a1a;">Full-stack ML platform — upload datasets (.csv, .parquet, .xlsx), train 9+ algorithms, automatic task detection, SMOTE handling, ROC curves, confusion matrices, feature importance visualization.</p>' +
+        '<div class="project-card"><h4 style="color:#0f380f;">📊 ML Training Platform <span style="font-size:0.55rem;background:#0f380f;color:#9bbc0f;padding:2px 6px;border-radius:6px;vertical-align:middle;">Academic</span></h4>' +
+        '<p style="color:#1a3a1a;">Upload datasets, train 9+ models, auto task detection, SMOTE handling, ROC curves, confusion matrices, feature importance.</p>' +
         '<div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Reflex</span><span class="project-tag">Scikit-learn</span><span class="project-tag">TensorFlow</span><span class="project-tag">PostgreSQL</span></div></div>' +
 
-        '<div class="project-card"><h4 style="color:#0f380f;">🏢 AVVS — Enterprise Platform</h4>' +
-        '<p style="color:#2d5a2d;font-size:0.72rem;font-style:italic;">Industry · 2022–2024</p>' +
-        '<p style="color:#1a3a1a;">Architecture improvements, reusable Angular components, optimized .NET services backed by MS SQL Server.</p>' +
+        '<div class="project-card"><h4 style="color:#0f380f;">🏢 AVVS</h4>' +
+        '<p style="color:#2d5a2d;font-size:0.7rem;font-style:italic;">Industry · 2022–2024</p>' +
+        '<p style="color:#1a3a1a;">Enterprise-scale app — architecture improvements, reusable Angular components, optimized .NET + SQL Server.</p>' +
         '<div class="project-tags"><span class="project-tag">Angular</span><span class="project-tag">.NET</span><span class="project-tag">SQL Server</span></div></div>' +
 
-        '<div class="project-card"><h4 style="color:#0f380f;">📈 TOPS — BI Modules</h4>' +
-        '<p style="color:#2d5a2d;font-size:0.72rem;font-style:italic;">Industry · 2022–2023</p>' +
-        '<p style="color:#1a3a1a;">Business intelligence modules with Angular and .NET, complex SQL queries, analytics dashboards.</p>' +
+        '<div class="project-card"><h4 style="color:#0f380f;">📈 TOPS</h4>' +
+        '<p style="color:#2d5a2d;font-size:0.7rem;font-style:italic;">Industry · 2022–2023</p>' +
+        '<p style="color:#1a3a1a;">BI modules — complex SQL, Angular dashboards, analytics-focused reporting.</p>' +
         '<div class="project-tags"><span class="project-tag">Angular</span><span class="project-tag">.NET</span><span class="project-tag">SQL</span></div></div>' +
 
-        '<div class="project-card"><h4 style="color:#0f380f;">💰 Maxxwill — Financial App</h4>' +
-        '<p style="color:#2d5a2d;font-size:0.72rem;font-style:italic;">Industry · 2021–2022</p>' +
-        '<p style="color:#1a3a1a;">Financial app — core modules, dashboards, junior developer mentoring.</p>' +
+        '<div class="project-card"><h4 style="color:#0f380f;">💰 Maxxwill</h4>' +
+        '<p style="color:#2d5a2d;font-size:0.7rem;font-style:italic;">Industry · 2021–2022</p>' +
+        '<p style="color:#1a3a1a;">Financial app — core modules, dashboards, mentored junior devs.</p>' +
         '<div class="project-tags"><span class="project-tag">Angular</span><span class="project-tag">.NET</span><span class="project-tag">SQL</span></div></div>' +
 
         '<div class="project-card"><h4 style="color:#0f380f;">📦 Settings-Maintenance</h4>' +
-        '<p style="color:#1a3a1a;">Open-source NuGet package auto-generating maintenance modules and stored procedures. Active across 10+ enterprise projects.</p>' +
+        '<p style="color:#1a3a1a;">Open-source NuGet package — auto-generates maintenance modules + stored procedures. Active in 10+ enterprise projects.</p>' +
         '<div class="project-tags"><span class="project-tag">C#</span><span class="project-tag">.NET Core</span><span class="project-tag">SQL Server</span><span class="project-tag">NuGet</span></div></div>' +
 
-        '<div class="project-card"><h4 style="color:#0f380f;">🌐 Early &amp; Freelance Projects</h4>' +
-        '<p style="color:#1a3a1a;"><strong style="color:#0f380f;">EnterTTech</strong> (HTML/CSS) · <strong style="color:#0f380f;">Gitaar School</strong> · <strong style="color:#0f380f;">Bespoke Nation</strong> · <strong style="color:#0f380f;">Equipoise</strong> (WordPress) · <strong style="color:#0f380f;">Aerial Arts Fairfax</strong> (Wix) · <strong style="color:#0f380f;">Jiyanshi Fashion</strong> · <strong style="color:#0f380f;">Venisons</strong> (Freelance Wix)</p>' +
+        '<div class="project-card"><h4 style="color:#0f380f;">🌐 Early &amp; Freelance</h4>' +
+        '<p style="color:#1a3a1a;"><strong style="color:#0f380f;">EnterTTech</strong> · <strong style="color:#0f380f;">Gitaar School</strong> · <strong style="color:#0f380f;">Bespoke Nation</strong> · <strong style="color:#0f380f;">Equipoise</strong> · <strong style="color:#0f380f;">Aerial Arts</strong> · <strong style="color:#0f380f;">Jiyanshi Fashion</strong> · <strong style="color:#0f380f;">Venisons</strong></p>' +
         '<div class="project-tags"><span class="project-tag">HTML/CSS</span><span class="project-tag">WordPress</span><span class="project-tag">Wix</span><span class="project-tag">E-commerce</span></div></div>' +
       '</div>'
   },
@@ -503,7 +514,7 @@ var portfolioData = {
     html:
       '<div class="screen-section">' +
         '<h3>▾ TRAINING ACADEMY</h3>' +
-        '<div class="exp-item"><div class="exp-title">M.S. in Computer Science</div><div class="exp-company">Western Kentucky University</div><div class="exp-date">Expected Dec 2026</div><p class="exp-details" style="color:#1a3a1a;">Coursework: Machine Learning, AI Systems, Advanced Databases</p></div>' +
+        '<div class="exp-item"><div class="exp-title">M.S. in Computer Science</div><div class="exp-company">Western Kentucky University</div><div class="exp-date">Expected Dec 2026</div><p class="exp-details" style="color:#1a3a1a;">ML, AI Systems, Advanced Databases</p></div>' +
         '<div class="exp-item"><div class="exp-title">M.S. in Information Technology</div><div class="exp-company">Nagindas Khandwala College, India</div><div class="exp-date">2021</div></div>' +
         '<div class="exp-item"><div class="exp-title">B.S. in Information Technology</div><div class="exp-company">Nagindas Khandwala College, India</div><div class="exp-date">2019</div></div>' +
         '<br/>' +
@@ -511,11 +522,11 @@ var portfolioData = {
         '<ul><li style="color:#1a3a1a;">Google x Kaggle: AI Agents Course</li><li style="color:#1a3a1a;">ChatGPT Prompt Engineering — DeepLearning.AI</li></ul>' +
         '<br/>' +
         '<h3>▾ STATS</h3>' +
-        '<p style="color:#0f380f;font-weight:700;"><span style="font-size:1.1rem;">5+</span> Years XP &nbsp;·&nbsp; <span style="font-size:1.1rem;">10+</span> Projects &nbsp;·&nbsp; <span style="font-size:1.1rem;">2+</span> Certifications</p>' +
+        '<p style="color:#0f380f;font-weight:700;"><span style="font-size:1.1rem;">5+</span> Years XP &nbsp;·&nbsp; <span style="font-size:1.1rem;">10+</span> Projects &nbsp;·&nbsp; <span style="font-size:1.1rem;">2+</span> Certs</p>' +
         '<br/>' +
         '<h3>▾ GITHUB CONTRIBUTIONS</h3>' +
-        '<p style="font-size:0.72rem;color:#2d5a2d;margin-bottom:6px;">Every pixel counts in code and caffeine! ☕</p>' +
-        '<div style="text-align:center;padding:8px;background:#0f380f;border-radius:8px;border:1px solid #1a3a1a;">' +
+        '<p style="font-size:0.7rem;color:#2d5a2d;margin-bottom:6px;">Every pixel counts in code and caffeine! ☕</p>' +
+        '<div style="text-align:center;padding:8px;background:#0f380f;border-radius:8px;">' +
           '<img src="https://ghchart.rshah.org/9bbc0f/riyaapatel" alt="GitHub Contributions" style="width:100%;height:auto;border-radius:4px;" />' +
         '</div>' +
         '<p style="font-size:0.6rem;color:#2d5a2d;text-align:center;margin-top:4px;">github.com/riyaapatel</p>' +
